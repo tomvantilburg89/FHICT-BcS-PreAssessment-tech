@@ -1,0 +1,165 @@
+{
+  "version": 1,
+  "author": "Tom van Tilburg",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-breadboard-half",
+      "id": "bb1",
+      "top": -1433.8,
+      "left": 253.8,
+      "rotate": 180,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-arduino-mega",
+      "id": "mega",
+      "top": -520,
+      "left": 151,
+      "rotate": 90,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-membrane-keypad",
+      "id": "keypad2",
+      "top": -1019.6,
+      "left": -38.1,
+      "attrs": {
+        "keys": [ "ᴀ", "ʙ♭", "ʙ", "", "c", "c♯", "ᴅ", "", "ᴇ♭", "ᴇ", "ꜰ", "", "ꜰ♯", "ɢ", "ᴀ♭", "" ],
+        "columns": "3"
+      }
+    },
+    {
+      "type": "wokwi-membrane-keypad",
+      "id": "keypad1",
+      "top": -1019.6,
+      "left": -311.2,
+      "attrs": {
+        "keys": [
+          "𝅝",
+          "𝅗𝅥",
+          "𝅘𝅥",
+          "",
+          "𝅘𝅥𝅮",
+          "𝅘𝅥𝅯",
+          "𝅘𝅥𝅰",
+          "+",
+          "𝄻",
+          "𝄼",
+          "𝄽",
+          "-",
+          "𝄾",
+          "𝄿",
+          "𝅀",
+          ""
+        ],
+        "columns": "3"
+      }
+    },
+    {
+      "type": "wokwi-buzzer",
+      "id": "bz1",
+      "top": -1466.4,
+      "left": 491.4,
+      "attrs": { "volume": "0.1" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r1",
+      "top": -994.1,
+      "left": 737.75,
+      "rotate": 90,
+      "attrs": { "value": "1000" }
+    },
+    {
+      "type": "wokwi-lcd2004",
+      "id": "lcd1",
+      "top": -1212.8,
+      "left": 236,
+      "attrs": { "pins": "i2c", "background": "blue", "color": "white", "i2cAddress": "0x27" }
+    },
+    {
+      "type": "wokwi-lcd2004",
+      "id": "lcd2",
+      "top": -1030.4,
+      "left": 236,
+      "attrs": { "pins": "i2c", "background": "blue", "color": "white", "i2cAddress": "0x28" }
+    },
+    {
+      "type": "wokwi-membrane-keypad",
+      "id": "keypad3",
+      "top": -1019.6,
+      "left": 629.6,
+      "attrs": {
+        "keys": [ "+", "2", "3", "␛", "-", "5", "6", "B", "<", ">", "9", "C", "⏯", "0", "#", "⏎" ],
+        "columns": "4"
+      }
+    },
+    {
+      "type": "wokwi-lcd2004",
+      "id": "lcd3",
+      "top": -848,
+      "left": 236,
+      "attrs": { "pins": "i2c", "background": "blue", "color": "white", "i2cAddress": "0x29" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r2",
+      "top": -1320,
+      "left": 498.65,
+      "rotate": 90,
+      "attrs": { "value": "1000" }
+    }
+  ],
+  "connections": [
+    [ "mega:A7", "keypad2:R1", "gold", [ "h0" ] ],
+    [ "mega:A6", "keypad2:R2", "purple", [ "h0" ] ],
+    [ "mega:A5", "keypad2:R3", "green", [ "h0" ] ],
+    [ "mega:A4", "keypad2:R4", "blue", [ "h0" ] ],
+    [ "mega:A3", "keypad2:C1", "pink", [ "h0" ] ],
+    [ "mega:A2", "keypad2:C2", "orange", [ "h0" ] ],
+    [ "mega:A1", "keypad2:C3", "gray", [ "h0" ] ],
+    [ "mega:A0", "keypad2:C4", "gold", [ "h0" ] ],
+    [ "mega:A15", "keypad1:R1", "gold", [ "h0" ] ],
+    [ "mega:A14", "keypad1:R2", "purple", [ "h0" ] ],
+    [ "mega:A13", "keypad1:R3", "green", [ "h0" ] ],
+    [ "mega:A12", "keypad1:R4", "blue", [ "h0" ] ],
+    [ "mega:A11", "keypad1:C1", "pink", [ "h0" ] ],
+    [ "mega:A10", "keypad1:C2", "orange", [ "h0" ] ],
+    [ "mega:A9", "keypad1:C3", "gray", [ "h0" ] ],
+    [ "mega:A8", "keypad1:C4", "gold", [ "h0" ] ],
+    [ "lcd2:GND", "mega:GND.3", "black", [ "h-48", "v544.95" ] ],
+    [ "lcd2:VCC", "mega:5V", "red", [ "h-38.4", "v516.2" ] ],
+    [ "lcd1:SDA", "mega:2-", "green", [ "h0" ] ],
+    [ "mega:SCL", "lcd1:SCL", "gold", [ "v-105.6", "h-211.2", "v-115.5" ] ],
+    [ "mega:SDA", "lcd1:SDA", "green", [ "h9.6", "v-106", "h-230.4", "v-134.6" ] ],
+    [ "lcd1:VCC", "mega:5V", "red", [ "h-38.4", "v38.5" ] ],
+    [ "lcd1:GND", "mega:GND.3", "black", [ "h-48", "v336" ] ],
+    [ "mega:SDA", "lcd2:SDA", "green", [ "h9.6", "v-106", "h-230.4", "v-355.2" ] ],
+    [ "lcd2:SCL", "mega:SCL", "gold", [ "h-19.2", "v336.3", "h211.2" ] ],
+    [ "mega:13", "bb1:4t.a", "gold", [ "h182.4", "v-576.6" ] ],
+    [ "bb1:bn.23", "bb1:tn.23", "green", [ "v0" ] ],
+    [ "bb1:bp.22", "bb1:tp.22", "green", [ "v0" ] ],
+    [ "mega:GND.3", "bb1:bn.25", "black", [ "h-64.5", "v-775.35" ] ],
+    [ "mega:5V", "bb1:bp.25", "red", [ "h-54.9", "v-746.5" ] ],
+    [ "mega:9", "keypad3:R1", "gold", [ "h0" ] ],
+    [ "mega:8", "keypad3:R2", "purple", [ "h0" ] ],
+    [ "mega:7", "keypad3:R3", "green", [ "h0" ] ],
+    [ "mega:6", "keypad3:R4", "blue", [ "h0" ] ],
+    [ "mega:5", "keypad3:C1", "pink", [ "h0" ] ],
+    [ "mega:4", "keypad3:C2", "orange", [ "h0" ] ],
+    [ "mega:3", "keypad3:C3", "gray", [ "h0" ] ],
+    [ "mega:2", "keypad3:C4", "gold", [ "h0" ] ],
+    [ "lcd3:GND", "mega:GND.3", "black", [ "h-48", "v355.2" ] ],
+    [ "mega:5V", "lcd3:VCC", "red", [ "h-54.9", "v-352.9" ] ],
+    [ "lcd3:SDA", "mega:SDA", "green", [ "h-28.8", "v173", "h230.4", "v105.6" ] ],
+    [ "lcd3:SCL", "mega:SCL", "gold", [ "h-19.2", "v153.9", "h211.2" ] ],
+    [ "bb1:bn.10", "bb1:5b.i", "black", [ "v0" ] ],
+    [ "bz1:1", "bb1:5b.j", "", [ "$bb" ] ],
+    [ "bz1:2", "bb1:4b.j", "", [ "$bb" ] ],
+    [ "r2:1", "bb1:4b.f", "", [ "$bb" ] ],
+    [ "r2:2", "bb1:4t.b", "", [ "$bb" ] ]
+  ],
+  "dependencies": {}
+}
+
