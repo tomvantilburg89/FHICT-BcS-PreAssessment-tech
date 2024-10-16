@@ -22,7 +22,6 @@ const char keys_4x3[ROWS][COLS - 1] = {
     {'7', '8', '9'},
     {'*', '0', '#'}};
 
-
 byte navigationRowPins[ROWS] = {9, 8, 7, 6}; // verbind met de rij pinouts van het keypad
 byte navigationColPins[COLS] = {5, 4, 3, 2}; // verbind met de kolom pinouts van het keypad
 
@@ -47,6 +46,7 @@ extern KeypadState pressedKeypad;
  *
  * ####################################################################################################################################### */
 
+char pressedKey;
 char currentKey;
 int currentKeyIndex;
 bool isPlaying = false;
@@ -54,15 +54,6 @@ bool isPlaying = false;
 // Debounce keypresses
 const unsigned long debounceDelay = 50;
 unsigned long lastDebounceTime = 0;
-
-void trySetCurrentKeypadState(char key, KeypadState state)
-{
-    if (!key)
-        return;
-
-    currentKey = melodyMaker->getKeyPress(key);
-    pressedKeypad = state;
-}
 
 bool isKeypad(KeypadState state)
 {
@@ -72,6 +63,16 @@ bool isKeypad(KeypadState state)
 bool isAnyKeypad()
 {
     return pressedKeypad < KeypadState::NO_ACTION;
+}
+
+void trySetCurrentKeypadState(char key, KeypadState state)
+{
+    if (!key)
+        return;
+    
+    pressedKey = key;
+    currentKey = melodyMaker->getKeyPress(pressedKey);
+    pressedKeypad = state;
 }
 
 #endif

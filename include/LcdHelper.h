@@ -11,14 +11,20 @@ class LcdHelper
 {
 public:
     LcdHelper();
-    void setup();
+    void init();
+    void initMenuLCD();
+    void updateInfoLCD();
     void updateMelodyLCD();
-
-    LiquidCrystal_I2C menu();
-    LiquidCrystal_I2C info();
-    LiquidCrystal_I2C melody();
+    
+    void clearMenuLCD();
+    void clearInfoLCD();
+    void clearMelodyLCD();
 
 private:
+    Melody *music;
+    LiquidCrystal_I2C menu = LiquidCrystal_I2C(0x27, 20, 4);
+    LiquidCrystal_I2C info = LiquidCrystal_I2C(0x28, 20, 4);
+    LiquidCrystal_I2C melody = LiquidCrystal_I2C(0x29, 20, 4);
 };
 
 #endif

@@ -1,8 +1,10 @@
 #include "Global.h"
 #include "MelodyMaker.h"
+#include "LcdHelper.h"
 
 
 Melody *melodyMaker;
+LcdHelper *lcdHelper;
 KeypadState pressedKeypad;
 LcdState lcdState;
 

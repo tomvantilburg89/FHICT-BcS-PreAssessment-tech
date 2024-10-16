@@ -20,7 +20,6 @@ public:
 
     // Melody fields
     unsigned int length();
-    unsigned int position();
 
     // Media controls
     void playMelody();
@@ -29,11 +28,10 @@ public:
     void clearMelody();
 
     // Sound generation
-    void sound();
+    void sound(float frequency, int speed);
     void debug(char *message, String value);
 
     // Demo sound
-    void loadDemo();
     void playDemo();
 
     // Misc controls
@@ -48,14 +46,32 @@ public:
     // Media create/etdit/delete
     void addNote(int noteIndex);
     void addLength(int noteLength);
+    void position(int index);
     void remove(int melodyIndex);
     void navigate(bool direction);
 
     // Helpers
     int getKeyPress(char keypad);
+
     void setNoteFrequency(int noteIndex); // perhaps do thison push
-    void setNoteLength(int noteLength);
+    void setNoteLength(int noteLenght);
+
     void setPlaybackSpeed();
+
+    int getBpm()
+    {
+        return this->bpm;
+    }
+
+    float getNoteFrequency()
+    {
+        return this->noteFrequency;
+    }
+
+    int getNoteLength()
+    {
+        return this->noteLength;
+    }
 
     const char *getNoteName()
     {
@@ -77,20 +93,21 @@ private:
     const int *demoFrequencies;
     const int *demoNoteLengths;
 
-    unsigned int melodyLength;
+    unsigned int melodyLength = 0;
 
     // Input values
-    int noteLength = 4;
+    int noteLength;
     int noteSpeed;
     int keyPressIndex;
     float noteFrequency;
 
     // Create melody vars
     int *noteLengths;
-    int *notePlaybackSpeeds;
+    int *noteKeyPresses;
+    int *noteSpeeds;
     float *noteFrequencies;
 
-    int playbackIndex = 0;
+    unsigned int playbackIndex;
 
     void setKeyPressIndex(int noteIndex);
     void calculatePlaybackSpeed();

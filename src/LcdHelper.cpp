@@ -1,42 +1,73 @@
+#include <Arduino.h>
 #include "LcdHelper.h"
 
-LiquidCrystal_I2C menuLCD(0x27, 20, 4);
-LiquidCrystal_I2C infoLCD(0x28, 20, 4);
-LiquidCrystal_I2C melodyLCD(0x29, 20, 4);
-
-extern LcdState lcdState;
 extern Melody *melodyMaker;
 
 LcdHelper::LcdHelper()
 {
+    this->init();
 }
 
-void LcdHelper::setup()
+void LcdHelper::init()
 {
-    menuLCD.init();
-    menuLCD.backlight();
-    infoLCD.init();
-    infoLCD.backlight();
-    melodyLCD.init();
-    melodyLCD.backlight();
+
+    menu.init();
+    menu.backlight();
+
+    info.init();
+    info.backlight();
+
+    melody.init();
+    melody.backlight();
+};
+
+void LcdHelper::initMenuLCD()
+{
+    this->menu.setCursor(0, 0);
+    this->menu.print("A ) Create melody");
+    this->menu.setCursor(0, 1);
+    this->menu.print("B ) Edit melody");
+    this->menu.setCursor(0, 2);
+    this->menu.print("C ) Stored melodies");
+    this->menu.setCursor(0, 3);
+    this->menu.print("D ) Play default");
 }
 
-LiquidCrystal_I2C LcdHelper::menu()
+void LcdHelper::clearMenuLCD()
 {
-    return menuLCD;
+    this->menu.clear();
 }
 
-LiquidCrystal_I2C LcdHelper::info()
+void LcdHelper::clearInfoLCD()
 {
-    return infoLCD;
+    this->info.clear();
 }
 
-LiquidCrystal_I2C LcdHelper::melody()
+void LcdHelper::updateInfoLCD()
 {
-    return melodyLCD;
+    this->info.setCursor(0, 0);
+    this->info.print("BPM: ");
+    this->info.print(melodyMaker->getBpm());
+    this->info.setCursor(0, 1);
+    this->info.print("Frequency: ");
+    this->info.print(melodyMaker->getNoteFrequency());
+    this->info.setCursor(0, 2);
+    this->info.print("Note: ");
+    this->info.print(melodyMaker->getNoteName());
+    this->info.print(" ");
+    this->info.setCursor(0, 3);
+    this->info.print("Timing: ");
+    this->info.print(melodyMaker->getNoteLength());
+    this->info.print(" ");
+}
+
+void LcdHelper::clearMelodyLCD()
+{
+    this->melody.clear();
 }
 
 void LcdHelper::updateMelodyLCD()
 {
-    this->melody().print(melodyMaker->getNoteName());
+    this->melody.print(melodyMaker->getNoteName());
+    this->melody.print(" ");
 }
