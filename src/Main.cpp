@@ -8,7 +8,6 @@ extern LcdHelper lcdHelper;
 extern LcdState lcdState;
 
 // Functieprototypes
-void setupLCDs();
 void loopKeypads();
 
 // handlers

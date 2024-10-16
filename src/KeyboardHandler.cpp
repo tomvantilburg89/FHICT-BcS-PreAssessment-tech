@@ -8,18 +8,20 @@ void handleKeypads()
 {
   if (!isAnyKeypad())
     return;
-
   switch (pressedKeypad)
   {
   case KeypadState::NAVIGATION:
     melodyMaker->loadDemo();
+    Serial.println("Navigate");
 
     break;
   case KeypadState::TIMINGS:
-    // Note length
+    melodyMaker->addLength(currentKey);
+    Serial.println("Timings");
     break;
   case KeypadState::NOTES:
-
+    melodyMaker->addNote(1);
+    Serial.println("Note");
     break;
   case KeypadState::NO_ACTION:
     // Do nothing
@@ -29,7 +31,6 @@ void handleKeypads()
 
 void loopKeypads()
 {
-
   char navi, time, note;
   bool keyPressed = false;
 

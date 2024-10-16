@@ -29,7 +29,7 @@ public:
     void clearMelody();
 
     // Sound generation
-    void sound(float frequency, int length);
+    void sound();
     void debug(char *message, String value);
 
     // Demo sound
@@ -46,7 +46,8 @@ public:
     float getMelodyFrequencies();
 
     // Media create/etdit/delete
-    void add(int noteIndex, int length);
+    void addNote(int noteIndex);
+    void addLength(int noteLength);
     void remove(int melodyIndex);
     void navigate(bool direction);
 
@@ -79,7 +80,7 @@ private:
     unsigned int melodyLength;
 
     // Input values
-    int noteLength;
+    int noteLength = 2;
     int noteSpeed;
     int keyPressIndex;
     float noteFrequency;

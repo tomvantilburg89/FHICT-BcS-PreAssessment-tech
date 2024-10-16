@@ -20,29 +20,34 @@ void Melody::loadDemo()
 
     for (int i = 0; i < 30; i++)
     {
-        this->add(demoFreq[i], demoLen[i]);
+        this->addLength(demoLen[i]);
+        this->addNote(demoFreq[i]);
     }
 }
 
-void Melody::sound(float frequency, int speed)
+void Melody::sound()
 {
-    tone(BUZZER_PIN, frequency, speed);
-    delay(speed);
+    tone(BUZZER_PIN, this->noteFrequency, this->noteSpeed);
+    delay(this->noteSpeed);
     noTone(BUZZER_PIN);
-    delay(speed);
+    delay(this->noteSpeed);
 }
 
-void Melody::add(int noteIndex, int length)
+void Melody::addLength(int noteLength)
+{
+
+    this->noteLength = 1 << (noteLength % 6);
+    this->calculatePlaybackSpeed();
+}
+
+void Melody::addNote(int noteIndex)
 {
     if (this->melodyLength < MAX_MELODY_LENGTH)
     {
         this->setKeyPressIndex(noteIndex);
         this->setNoteFrequency(noteIndex);
-        this->setNoteLength(length);
         this->calculatePlaybackSpeed();
-
-        this->sound(this->noteFrequency, this->noteSpeed / 1.2);
-
+        this->sound();
         this->melodyLength++;
     }
 }
@@ -134,6 +139,12 @@ void Melody::calculatePlaybackSpeed()
         break;
     case 16:
         this->noteSpeed = (60000 / bpm) / 4; // 16th note
+        break;
+    case 32:
+        this->noteSpeed = (60000 / bpm) / 8; // 32th note
+        break;
+    case 64:
+        this->noteSpeed = (60000 / bpm) / 16; // 64th note
         break;
     default:
         break;

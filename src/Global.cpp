@@ -13,10 +13,10 @@ const char *namedNotesMap[] = {"A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "
 
 // Default demo song
 const int demoFreq[] = {
-    7, 5, 3, 5, 7, 7, 7, 0,     // E D C D E E E *
-    5, 5, 5, 0, 7, 10, 10, 0,   // D D D * E G G *
-    7, 5, 3, 5, 7, 7, 7, 0,     // E D C D E E E *
-    7, 5, 5, 7, 5, 3            // E D D E D C
+    7, 5, 3, 5, 7, 7, 7, 0,   // E D C D E E E *
+    5, 5, 5, 0, 7, 10, 10, 0, // D D D * E G G *
+    7, 5, 3, 5, 7, 7, 7, 0,   // E D C D E E E *
+    7, 5, 5, 7, 5, 3          // E D D E D C
 };
 
 const int demoLen[] = {

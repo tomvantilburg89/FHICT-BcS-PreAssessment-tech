@@ -65,7 +65,7 @@ void trySetCurrentKeypadState(char key, KeypadState state)
     if (!key)
         return;
 
-    currentKey = key;
+    currentKey = melodyMaker->getKeyPress(key);
     pressedKeypad = state;
 }
 
