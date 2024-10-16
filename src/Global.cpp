@@ -1,11 +1,10 @@
 #include "Global.h"
 #include "MelodyMaker.h"
-#include "LcdHelper.h"
+
 
 Melody *melodyMaker;
 KeypadState pressedKeypad;
 LcdState lcdState;
-LcdHelper lcdHelper;
 
 uint8_t i2cAddresses[] = {0x27, 0x28, 0x29};
 

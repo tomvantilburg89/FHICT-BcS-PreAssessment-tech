@@ -1,6 +1,8 @@
 #include <Arduino.h>
 #include "MelodyMaker.h"
-#include "Global.h"
+
+
+
 
 Melody::Melody(int bpm)
     : bpm(bpm), buzzer(BUZZER_PIN), noteMap(namedNotesMap),
