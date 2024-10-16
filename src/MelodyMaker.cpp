@@ -1,5 +1,8 @@
 #include <Arduino.h>
 #include "MelodyMaker.h"
+#include "LcdHelper.h"
+
+extern LcdHelper lcdHelper;
 
 Melody::Melody(int bpm)
     : bpm(bpm), buzzer(BUZZER_PIN), noteMap(namedNotesMap),
@@ -47,6 +50,7 @@ void Melody::addNote(int noteIndex)
         this->setNoteFrequency(noteIndex);
         this->calculatePlaybackSpeed();
         this->sound();
+        lcdHelper.updateMelodyLCD();
         this->melodyLength++;
     }
 }

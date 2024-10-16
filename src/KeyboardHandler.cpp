@@ -1,6 +1,9 @@
 #include <Arduino.h>
 #include "MelodyMaker.h"
 #include "KeyboardHandler.h"
+#include "LcdHelper.h"
+
+extern LcdHelper lcdHelper;
 
 int count = 0;
 
@@ -12,16 +15,15 @@ void handleKeypads()
   {
   case KeypadState::NAVIGATION:
     melodyMaker->loadDemo();
-    Serial.println("Navigate");
+    // Serial.println("Navigate");
 
     break;
   case KeypadState::TIMINGS:
     melodyMaker->addLength(currentKey);
-    Serial.println("Timings");
+    // Serial.println("Timings");
     break;
   case KeypadState::NOTES:
     melodyMaker->addNote(currentKey);
-    Serial.println(melodyMaker->getNoteName());
     break;
   case KeypadState::NO_ACTION:
     // Do nothing

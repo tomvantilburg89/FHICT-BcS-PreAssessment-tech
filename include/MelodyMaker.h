@@ -80,7 +80,7 @@ private:
     unsigned int melodyLength;
 
     // Input values
-    int noteLength = 2;
+    int noteLength = 4;
     int noteSpeed;
     int keyPressIndex;
     float noteFrequency;

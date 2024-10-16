@@ -22,11 +22,6 @@ const char keys_4x3[ROWS][COLS - 1] = {
     {'7', '8', '9'},
     {'*', '0', '#'}};
 
-const char keys_4x4[ROWS][COLS] = {
-    {'1', '2', '3', 'A'},
-    {'4', '5', '6', 'B'},
-    {'7', '8', '9', 'C'},
-    {'*', '0', '#', 'D'}};
 
 byte navigationRowPins[ROWS] = {9, 8, 7, 6}; // verbind met de rij pinouts van het keypad
 byte navigationColPins[COLS] = {5, 4, 3, 2}; // verbind met de kolom pinouts van het keypad
@@ -37,7 +32,7 @@ byte noteColPins[COLS] = {A3, A2, A1};     // verbind met de kolom pinouts van h
 byte timingRowPins[ROWS] = {A15, A14, A13, A12}; // verbind met de rij pinouts van het keypad
 byte timingColPins[COLS] = {A11, A10, A9};       // verbind met de kolom pinouts van het keypad
 
-Keypad navigationInput = Keypad(makeKeymap(keys_4x4), navigationRowPins, navigationColPins, ROWS, COLS);
+Keypad navigationInput = Keypad(makeKeymap(keys_4x3), navigationRowPins, navigationColPins, ROWS, COLS - 1);
 Keypad noteInput = Keypad(makeKeymap(keys_4x3), noteRowPins, noteColPins, ROWS, COLS - 1);
 Keypad timingInput = Keypad(makeKeymap(keys_4x3), timingRowPins, timingColPins, ROWS, COLS - 1);
 

@@ -1,53 +1,42 @@
 #include "LcdHelper.h"
 
+LiquidCrystal_I2C menuLCD(0x27, 20, 4);
+LiquidCrystal_I2C infoLCD(0x28, 20, 4);
+LiquidCrystal_I2C melodyLCD(0x29, 20, 4);
+
 extern LcdState lcdState;
 extern Melody *melodyMaker;
 
-LcdHelper::LcdHelper() : addresses(i2cAddresses), melodyMaker(melodyMaker)
+LcdHelper::LcdHelper()
 {
 }
 
 void LcdHelper::setup()
 {
-    for (int i = 0; i < 3; i++)
-    {
-        this->selected = i;
-        this->init(i);
-    }
+    menuLCD.init();
+    menuLCD.backlight();
+    infoLCD.init();
+    infoLCD.backlight();
+    melodyLCD.init();
+    melodyLCD.backlight();
 }
-
-void LcdHelper::init(int i)
-{
-    this->lcd(i).init();
-    this->lcd(i).backlight();
-}
-
-LiquidCrystal_I2C LcdHelper::lcd(int state)
-{
-    return LiquidCrystal_I2C(this->addresses[state], 20, 4);
-};
 
 LiquidCrystal_I2C LcdHelper::menu()
 {
-    return this->lcd(LcdState::MENU);
+    return menuLCD;
 }
 
 LiquidCrystal_I2C LcdHelper::info()
 {
-    return this->lcd(LcdState::INFO);
+    return infoLCD;
 }
 
 LiquidCrystal_I2C LcdHelper::melody()
 {
-    return this->lcd(LcdState::MELODY);
+    return melodyLCD;
 }
 
 void LcdHelper::updateMelodyLCD()
 {
-    this->melodyMaker->getNoteName();
-
-    Serial.println(this->melodyMaker->getNoteName());
-    const char *notename = this->melodyMaker->getNoteName();
-
-    this->melody().print(notename);
+    this->melody().print(melodyMaker->getNoteName());
 }

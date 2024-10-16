@@ -24,5 +24,4 @@ void setup()
 void loop()
 {
   loopKeypads();
-  // lcdHelper.updateMelodyLCD();
 }
