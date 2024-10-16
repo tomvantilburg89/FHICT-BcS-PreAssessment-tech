@@ -20,8 +20,8 @@ void handleKeypads()
     Serial.println("Timings");
     break;
   case KeypadState::NOTES:
-    melodyMaker->addNote(1);
-    Serial.println("Note");
+    melodyMaker->addNote(currentKey);
+    Serial.println(melodyMaker->getNoteName());
     break;
   case KeypadState::NO_ACTION:
     // Do nothing

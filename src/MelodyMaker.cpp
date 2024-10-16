@@ -1,9 +1,6 @@
 #include <Arduino.h>
 #include "MelodyMaker.h"
 
-
-
-
 Melody::Melody(int bpm)
     : bpm(bpm), buzzer(BUZZER_PIN), noteMap(namedNotesMap),
       demoFrequencies(demoFreq), demoNoteLengths(demoLen)
