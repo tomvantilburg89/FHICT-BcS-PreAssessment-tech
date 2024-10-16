@@ -1,42 +1,36 @@
 #include <Arduino.h>
 #include "MelodyMaker.h"
 
+#include "LcdHelper.h"
+
+extern LcdHelper *lcdHelper;
+
 Melody::Melody(int bpm)
     : bpm(bpm), buzzer(BUZZER_PIN), noteMap(namedNotesMap),
       demoFrequencies(demoFreq), demoNoteLengths(demoLen)
 {
     noteFrequencies = new float[MAX_MELODY_LENGTH];
     noteLengths = new int[MAX_MELODY_LENGTH];
+    this->setNoteFrequency(1);
+    this->setNoteLength(2);
 }
 
 Melody::~Melody()
 {
-    delete[] noteFrequencies;
-    delete[] noteLengths;
+    // delete[] noteFrequencies;
+    // delete[] noteLengths;
 }
-void Melody::loadDemo()
+void Melody::sound(float frequency, int speed)
 {
-
-    for (int i = 0; i < 30; i++)
-    {
-        this->addLength(demoLen[i]);
-        this->addNote(demoFreq[i]);
-    }
-}
-
-void Melody::sound()
-{
-    tone(BUZZER_PIN, this->noteFrequency, this->noteSpeed);
-    delay(this->noteSpeed);
+    tone(BUZZER_PIN, frequency, speed);
+    delay(speed);
     noTone(BUZZER_PIN);
-    delay(this->noteSpeed);
+    delay(speed);
 }
 
-void Melody::addLength(int noteLength)
+void Melody::addLength(int noteTiming)
 {
-
-    this->noteLength = 1 << (noteLength % 6);
-    this->calculatePlaybackSpeed();
+    this->setNoteLength(noteTiming);
 }
 
 void Melody::addNote(int noteIndex)
@@ -46,8 +40,24 @@ void Melody::addNote(int noteIndex)
         this->setKeyPressIndex(noteIndex);
         this->setNoteFrequency(noteIndex);
         this->calculatePlaybackSpeed();
-        this->sound();
+        this->sound(this->noteFrequency, this->noteSpeed);
+        lcdHelper->updateInfoLCD();
+        lcdHelper->updateMelodyLCD();
         this->melodyLength++;
+    }
+}
+
+void Melody::playDemo()
+{
+    for (int i = 0; i < 30; i++)
+    {
+        this->addLength(demoLen[i]);
+        this->setKeyPressIndex(demoFreq[i]);
+        this->setNoteFrequency(demoFreq[i]);
+        this->calculatePlaybackSpeed();
+        this->sound(this->noteFrequency, this->noteSpeed / 2);
+        lcdHelper->updateInfoLCD();
+        lcdHelper->updateMelodyLCD();
     }
 }
 
@@ -141,9 +151,6 @@ void Melody::calculatePlaybackSpeed()
         break;
     case 32:
         this->noteSpeed = (60000 / bpm) / 8; // 32th note
-        break;
-    case 64:
-        this->noteSpeed = (60000 / bpm) / 16; // 64th note
         break;
     default:
         break;

@@ -1,30 +1,55 @@
 #include <Arduino.h>
 #include "MelodyMaker.h"
 #include "KeyboardHandler.h"
+#include "LcdHelper.h"
 
+extern LcdHelper *lcdHelper;
 int count = 0;
+
+void handleNavigation();
+void handleKeypads();
+void trySetCurrentKeypadState(char key, KeypadState state);
 
 void handleKeypads()
 {
   if (!isAnyKeypad())
     return;
+
   switch (pressedKeypad)
   {
   case KeypadState::NAVIGATION:
-    melodyMaker->loadDemo();
-    Serial.println("Navigate");
-
+    handleNavigation();
     break;
   case KeypadState::TIMINGS:
     melodyMaker->addLength(currentKey);
-    Serial.println("Timings");
     break;
   case KeypadState::NOTES:
     melodyMaker->addNote(currentKey);
-    Serial.println(melodyMaker->getNoteName());
     break;
   case KeypadState::NO_ACTION:
     // Do nothing
+    break;
+  }
+}
+
+
+void handleNavigation()
+{
+  if (!pressedKey && pressedKeypad != KeypadState::NAVIGATION && pressedKeypad != KeypadState::NO_ACTION)
+    return;
+
+  switch (pressedKey)
+  {
+  case '1':
+    
+    break;
+  case '4':
+    melodyMaker->playDemo();
+    break;
+  case '*':
+    break;
+  case '#':
+    // melodyMaker->stop();
     break;
   }
 }
@@ -33,6 +58,7 @@ void loopKeypads()
 {
   char navi, time, note;
   bool keyPressed = false;
+  unsigned long currentDebounceTime = millis();
 
   do
   {
@@ -41,20 +67,20 @@ void loopKeypads()
     note = noteInput.getKey();
     keyPressed = navi || time || note; // Set keyPressed to true if any key is detected
 
-  } while (keyPressed && (millis() - lastDebounceTime) < debounceDelay);
+    if (keyPressed)
+    {
 
-  if (keyPressed)
-  {
+      lastDebounceTime = currentDebounceTime;
 
-    lastDebounceTime = millis();
+      trySetCurrentKeypadState(navi, KeypadState::NAVIGATION);
+      trySetCurrentKeypadState(time, KeypadState::TIMINGS);
+      trySetCurrentKeypadState(note, KeypadState::NOTES);
 
-    trySetCurrentKeypadState(navi, KeypadState::NAVIGATION);
-    trySetCurrentKeypadState(time, KeypadState::TIMINGS);
-    trySetCurrentKeypadState(note, KeypadState::NOTES);
+      // handleKeys now
+      handleKeypads();
+    }
+    // immediately elliminate the pressedKeypad state
+    pressedKeypad = KeypadState::NO_ACTION;
 
-    // handleKeys now
-    handleKeypads();
-  }
-  // immediately elliminate the pressedKeypad state
-  pressedKeypad = KeypadState::NO_ACTION;
+  } while (keyPressed && (currentDebounceTime - lastDebounceTime) < debounceDelay);
 }

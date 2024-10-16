@@ -11,20 +11,20 @@ class LcdHelper
 {
 public:
     LcdHelper();
-    uint8_t *addresses;
-    Melody *melodyMaker;
-
-    void setup();
-    void init(int i);
+    void init();
+    void initMenuLCD();
+    void updateInfoLCD();
     void updateMelodyLCD();
+    
+    void clearMenuLCD();
+    void clearInfoLCD();
+    void clearMelodyLCD();
 
 private:
-    int selected;
-    LiquidCrystal_I2C *lcds;
-    LiquidCrystal_I2C lcd(int state);
-    LiquidCrystal_I2C menu();
-    LiquidCrystal_I2C info();
-    LiquidCrystal_I2C melody();
+    Melody *music;
+    LiquidCrystal_I2C menu = LiquidCrystal_I2C(0x27, 20, 4);
+    LiquidCrystal_I2C info = LiquidCrystal_I2C(0x28, 20, 4);
+    LiquidCrystal_I2C melody = LiquidCrystal_I2C(0x29, 20, 4);
 };
 
 #endif

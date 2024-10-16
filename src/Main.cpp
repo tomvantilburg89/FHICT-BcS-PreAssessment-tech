@@ -4,25 +4,23 @@
 #include "LcdHelper.h"
 
 extern Melody *melodyMaker;
-LcdHelper lcdHelper;
+extern LcdHelper *lcdHelper;
 extern LcdState lcdState;
 
 // Functieprototypes
 void loopKeypads();
 
-// handlers
-void handleKeypads();
-
 // program
 void setup()
 {
-  melodyMaker = new Melody(180);
   Serial.begin(9600);
-  lcdHelper.setup();
+
+  melodyMaker = new Melody(180);
+  lcdHelper = new LcdHelper();
+  lcdHelper->initMenuLCD();
 }
 
 void loop()
 {
   loopKeypads();
-  // lcdHelper.updateMelodyLCD();
 }

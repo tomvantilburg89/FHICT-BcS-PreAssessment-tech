@@ -1,53 +1,73 @@
+#include <Arduino.h>
 #include "LcdHelper.h"
 
-extern LcdState lcdState;
 extern Melody *melodyMaker;
 
-LcdHelper::LcdHelper() : addresses(i2cAddresses), melodyMaker(melodyMaker)
+LcdHelper::LcdHelper()
 {
+    this->init();
 }
 
-void LcdHelper::setup()
+void LcdHelper::init()
 {
-    for (int i = 0; i < 3; i++)
-    {
-        this->selected = i;
-        this->init(i);
-    }
-}
 
-void LcdHelper::init(int i)
-{
-    this->lcd(i).init();
-    this->lcd(i).backlight();
-}
+    menu.init();
+    menu.backlight();
 
-LiquidCrystal_I2C LcdHelper::lcd(int state)
-{
-    return LiquidCrystal_I2C(this->addresses[state], 20, 4);
+    info.init();
+    info.backlight();
+
+    melody.init();
+    melody.backlight();
 };
 
-LiquidCrystal_I2C LcdHelper::menu()
+void LcdHelper::initMenuLCD()
 {
-    return this->lcd(LcdState::MENU);
+    this->menu.setCursor(0, 0);
+    this->menu.print("A ) Create melody");
+    this->menu.setCursor(0, 1);
+    this->menu.print("B ) Edit melody");
+    this->menu.setCursor(0, 2);
+    this->menu.print("C ) Stored melodies");
+    this->menu.setCursor(0, 3);
+    this->menu.print("D ) Play default");
 }
 
-LiquidCrystal_I2C LcdHelper::info()
+void LcdHelper::clearMenuLCD()
 {
-    return this->lcd(LcdState::INFO);
+    this->menu.clear();
 }
 
-LiquidCrystal_I2C LcdHelper::melody()
+void LcdHelper::clearInfoLCD()
 {
-    return this->lcd(LcdState::MELODY);
+    this->info.clear();
+}
+
+void LcdHelper::updateInfoLCD()
+{
+    this->info.setCursor(0, 0);
+    this->info.print("BPM: ");
+    this->info.print(melodyMaker->getBpm());
+    this->info.setCursor(0, 1);
+    this->info.print("Frequency: ");
+    this->info.print(melodyMaker->getNoteFrequency());
+    this->info.setCursor(0, 2);
+    this->info.print("Note: ");
+    this->info.print(melodyMaker->getNoteName());
+    this->info.print(" ");
+    this->info.setCursor(0, 3);
+    this->info.print("Timing: ");
+    this->info.print(melodyMaker->getNoteLength());
+    this->info.print(" ");
+}
+
+void LcdHelper::clearMelodyLCD()
+{
+    this->melody.clear();
 }
 
 void LcdHelper::updateMelodyLCD()
 {
-    this->melodyMaker->getNoteName();
-
-    Serial.println(this->melodyMaker->getNoteName());
-    const char *notename = this->melodyMaker->getNoteName();
-
-    this->melody().print(notename);
+    this->melody.print(melodyMaker->getNoteName());
+    this->melody.print(" ");
 }
