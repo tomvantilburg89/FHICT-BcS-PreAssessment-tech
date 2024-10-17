@@ -26,6 +26,7 @@ void LcdHelper::initMenuLCD()
     this->menu.print("2 ) Stored melodies");
     this->menu.setCursor(0, 2);
     this->menu.print("3 ) Play default");
+    this->updateInfoBpm();
 }
 
 void LcdHelper::clearMenuLCD()
@@ -56,22 +57,43 @@ void LcdHelper::initInfoLCD()
     this->info.print(" ");
 }
 
-void LcdHelper::updateInfoLCD()
+void LcdHelper::updateInfoBpm()
 {
+
     this->info.setCursor(0, 0);
     this->info.print("BPM: ");
     this->info.print(melodyMaker->getBpm());
+    this->info.print(" ");
+}
+
+void LcdHelper::updateInfoFrequency()
+{
     this->info.setCursor(0, 1);
     this->info.print("Frequency: ");
     this->info.print(melodyMaker->getNoteFrequency());
+}
+
+void LcdHelper::updateInfoNoteName()
+{
     this->info.setCursor(0, 2);
     this->info.print("Note: ");
     this->info.print(melodyMaker->getNoteName());
     this->info.print(" ");
+}
+void LcdHelper::updateInfoNoteLength()
+{
     this->info.setCursor(0, 3);
     this->info.print("Timing: ");
     this->info.print(melodyMaker->getNoteLength());
     this->info.print(" ");
+}
+
+void LcdHelper::updateInfoLCD()
+{
+    this->updateInfoBpm();
+    this->updateInfoFrequency();
+    this->updateInfoNoteName();
+    this->updateInfoNoteLength();
 }
 
 void LcdHelper::clearMelodyLCD()

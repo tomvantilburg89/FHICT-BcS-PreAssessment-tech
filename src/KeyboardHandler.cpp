@@ -33,9 +33,6 @@ void handleKeypads()
       {
         melodyMaker->addNote(-1);
       }
-      // if (key > 5)
-      // {
-      // }
     }
     break;
   case KeypadState::NOTES:
@@ -68,16 +65,22 @@ void handleMainNavigation()
   case '3':
     if (currentMenuState != MenuState::CREATE)
       currentMenuState = MenuState::PREVIEW;
+    lcdHelper->initInfoLCD();
     melodyMaker->playDemo();
     break;
   case '6':
     currentMenuState = MenuState::MAIN;
-    // ~Melody();
-    // melodyMaker = new Melody(180);
     mainMenu();
+    break;
+  case '8':
+    melodyMaker->increaseBpm();
+    break;
+  case '0':
+    melodyMaker->decreaseBpm();
     break;
   case '*':
     lcdHelper->clearMelodyLCD();
+    lcdHelper->initInfoLCD();
     currentMenuState = MenuState::PLAYING;
     break;
   case '#':
@@ -88,9 +91,11 @@ void handleMainNavigation()
 
 void mainMenu()
 {
+
   lcdHelper->initMenuLCD();
   lcdHelper->clearInfoLCD();
   lcdHelper->clearMelodyLCD();
+  lcdHelper->updateInfoBpm();
 }
 
 void loopKeypads()
