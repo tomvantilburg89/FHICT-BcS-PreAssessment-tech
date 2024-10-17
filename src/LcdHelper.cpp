@@ -81,6 +81,5 @@ void LcdHelper::clearMelodyLCD()
 
 void LcdHelper::updateMelodyLCD()
 {
-    Serial.println(melodyMaker->getNoteName());
     this->melody.print(melodyMaker->getNoteName());
 }

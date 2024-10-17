@@ -73,7 +73,7 @@ void handleMainNavigation()
   case '6':
     currentMenuState = MenuState::MAIN;
     // ~Melody();
-    melodyMaker = new Melody(180);
+    // melodyMaker = new Melody(180);
     mainMenu();
     break;
   case '*':

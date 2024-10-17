@@ -11,6 +11,7 @@ Melody::Melody(int bpm)
       demoFrequencies(demoFreq), demoNoteLengths(demoLen)
 {
     noteFrequencies = new float[MAX_MELODY_LENGTH];
+    noteKeyPresses = new int[MAX_MELODY_LENGTH];
     noteLengths = new int[MAX_MELODY_LENGTH];
 }
 
@@ -41,15 +42,16 @@ void Melody::addNote(int noteIndex)
         this->setNoteFrequency(noteIndex);
         this->calculatePlaybackSpeed();
         this->sound(this->noteFrequency, this->noteSpeed / 2);
-        lcdHelper->updateInfoLCD();
-        lcdHelper->updateMelodyLCD();
         this->push();
         this->melodyLength++;
+        lcdHelper->updateInfoLCD();
+        lcdHelper->updateMelodyLCD();
     }
 }
 
 void Melody::push()
 {
+    this->noteKeyPresses[this->melodyLength] = this->keyPressIndex;
     this->noteLengths[this->melodyLength] = this->noteLength;
     this->noteFrequencies[this->melodyLength] = this->noteFrequency;
 }
@@ -93,6 +95,7 @@ void Melody::play()
 
     if (playIndex < melodyLength)
     {
+        this->keyPressIndex = this->noteKeyPresses[playIndex];
         this->noteLength = this->noteLengths[playIndex];
         this->noteFrequency = this->noteFrequencies[playIndex];
         this->calculatePlaybackSpeed();
@@ -100,9 +103,9 @@ void Melody::play()
         {
             this->sound(this->noteFrequency, this->noteSpeed);
             playIndex++;
+            lcdHelper->updateInfoLCD();
+            lcdHelper->updateMelodyLCD();
         }
-        lcdHelper->updateInfoLCD();
-        lcdHelper->updateMelodyLCD();
     }
     else if (playIndex >= melodyLength)
     {
