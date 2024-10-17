@@ -84,8 +84,8 @@ private:
     const int *demoNoteLengths;
 
     // Input values
-    int noteLength = 8;
-    int noteSpeed = (60000 / this->bpm) / 4;
+    int noteLength = 16;
+    int noteSpeed = (60000 / this->bpm) / 8;
     int keyPressIndex;
     float noteFrequency = 440.0;
 
@@ -96,8 +96,9 @@ private:
     float *noteFrequencies;
 
     /// playback
-    unsigned long previousPlaybackTime;
-    unsigned long playbackTimBounceDelay = 50;
+    unsigned long previousTime;
+    unsigned long timeBouceDelay = 50;
+    int currentNoteLength = 0;
 
 
     void setKeyPressIndex(int noteIndex);

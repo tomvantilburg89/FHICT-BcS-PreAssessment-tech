@@ -16,7 +16,7 @@ void setup()
 {
   Serial.begin(9600);
 
-  melodyMaker = new Melody(180);
+  melodyMaker = new Melody(240);
   lcdHelper = new LcdHelper();
   lcdHelper->initMenuLCD();
 }
