@@ -23,6 +23,8 @@ public:
 
     // Media controls
     void play();
+    void start();
+    void stop();
     void stopMelody();
     void pauseMelody();
     void clearMelody();
@@ -30,7 +32,7 @@ public:
     void push();
 
     // Sound generation
-    void sound(float frequency, int speed);
+    void sound();
     void debug(char *message, String value);
 
     // Demo sound
@@ -45,7 +47,6 @@ public:
     int getMelodyNoteLengths();
     float getMelodyFrequencies();
     int playIndex = 0;
-
     int melodyLength = 0;
 
     // Media create/etdit/delete
@@ -53,7 +54,7 @@ public:
     void addLength(int noteLength);
     void position(int index);
     void remove(int melodyIndex);
-    void navigate(bool direction);
+    void pad(int direction);
 
     // Helpers
     int getKeyPress(char keypad);

@@ -21,15 +21,16 @@ Melody::~Melody()
     delete[] noteFrequencies;
     delete[] noteLengths;
 }
-void Melody::sound(float frequency, int speed)
+void Melody::sound()
 {
+    tone(BUZZER_PIN, this->noteFrequency, this->noteSpeed);
+    delay(this->noteSpeed);
+    noTone(BUZZER_PIN);
+    delay(this->noteSpeed);
     lcdHelper->updateInfoNoteLength();
     lcdHelper->updateInfoFrequency();
     lcdHelper->updateInfoNoteName();
-    tone(BUZZER_PIN, frequency, speed);
-    delay(speed);
-    noTone(BUZZER_PIN);
-    delay(speed);
+    lcdHelper->updateMelodyLCD();
 }
 
 void Melody::addLength(int noteTiming)
@@ -44,9 +45,10 @@ void Melody::addNote(int noteIndex)
         this->setKeyPressIndex(noteIndex);
         this->setNoteFrequency(noteIndex);
         this->calculatePlaybackSpeed();
-        this->sound(this->noteFrequency, this->noteSpeed / 2);
+        this->sound();
         this->push();
         this->melodyLength++;
+        this->playIndex++;
         lcdHelper->updateMelodyLCD();
     }
 }
@@ -63,13 +65,11 @@ void Melody::playDemo()
     if (currentMenuState != MenuState::PREVIEW)
         return;
 
+    lcdHelper->initDemoMenu();
     for (int i = 0; i < 30; i++)
     {
         this->addLength(demoLen[i]);
-        this->setKeyPressIndex(demoFreq[i]);
-        this->setNoteFrequency(demoFreq[i]);
-        this->calculatePlaybackSpeed();
-        this->sound(this->noteFrequency, this->noteSpeed);
+        this->addNote(demoFreq[i]);
     }
 
     currentMenuState = MenuState::MAIN;
@@ -89,6 +89,17 @@ void Melody::setNoteFrequency(int noteIndex)
         this->noteFrequency = this->calculateFrequency(noteIndex);
 }
 
+void Melody::start()
+{
+    currentMenuState = currentMenuState == MenuState::PLAYING ? MenuState::STOPPED : MenuState::PLAYING;
+}
+
+void Melody::stop()
+{
+    currentMenuState = MenuState::CREATE;
+    playIndex = 0;
+}
+
 void Melody::play()
 {
     if (currentMenuState != MenuState::PLAYING)
@@ -104,8 +115,7 @@ void Melody::play()
         this->calculatePlaybackSpeed();
         if (currentTime - previousTime >= this->noteSpeed)
         {
-            this->sound(this->noteFrequency, this->noteSpeed);
-            lcdHelper->updateMelodyLCD();
+            this->sound();
             playIndex++;
         }
     }
