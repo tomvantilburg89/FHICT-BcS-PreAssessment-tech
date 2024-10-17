@@ -46,14 +46,25 @@ void handleNavigation()
   {
   case '1':
     currentMenuState = MenuState::CREATE;
+    lcdHelper->clearMenuLCD();
+    lcdHelper->updateInfoLCD();
     break;
-  case '4':
+  case '2':
+    currentMenuState = MenuState::STORAGE;
+    lcdHelper->clearMenuLCD();
+    lcdHelper->updateInfoLCD();
+    break;
+  case '3':
     if (currentMenuState != MenuState::CREATE)
       currentMenuState = MenuState::PREVIEW;
     melodyMaker->playDemo();
     break;
   case '6':
     currentMenuState = MenuState::MAIN;
+    lcdHelper->initMenuLCD();
+    lcdHelper->clearInfoLCD();
+    lcdHelper->clearMelodyLCD();
+
     break;
   case '*':
     break;

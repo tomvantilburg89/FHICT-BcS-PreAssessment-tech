@@ -11,11 +11,15 @@ class LcdHelper
 {
 public:
     LcdHelper();
+    
     void init();
+
     void initMenuLCD();
+    void initInfoLCD();
+
     void updateInfoLCD();
     void updateMelodyLCD();
-    
+
     void clearMenuLCD();
     void clearInfoLCD();
     void clearMelodyLCD();

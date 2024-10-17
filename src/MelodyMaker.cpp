@@ -12,7 +12,6 @@ Melody::Melody(int bpm)
 {
     noteFrequencies = new float[MAX_MELODY_LENGTH];
     noteLengths = new int[MAX_MELODY_LENGTH];
-    this->calculatePlaybackSpeed();
 }
 
 Melody::~Melody()
@@ -51,7 +50,7 @@ void Melody::playDemo()
 {
     if (currentMenuState != MenuState::PREVIEW)
         return;
-        
+
     for (int i = 0; i < 30; i++)
     {
         this->addLength(demoLen[i]);

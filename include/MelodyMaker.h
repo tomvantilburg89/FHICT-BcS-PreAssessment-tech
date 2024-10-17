@@ -97,7 +97,7 @@ private:
 
     // Input values
     int noteLength = 8;
-    int noteSpeed = (60000 / this->bpm) / 2;
+    int noteSpeed = (60000 / this->bpm) / 4;
     int keyPressIndex;
     float noteFrequency = 440.0;
 
