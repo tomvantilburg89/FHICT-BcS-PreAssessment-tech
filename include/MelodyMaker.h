@@ -64,6 +64,8 @@ public:
     void setPlaybackSpeed();
 
     int getBpm();
+    void increaseBpm();
+    void decreaseBpm();
 
     float getNoteFrequency();
 

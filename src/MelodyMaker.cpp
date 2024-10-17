@@ -23,6 +23,9 @@ Melody::~Melody()
 }
 void Melody::sound(float frequency, int speed)
 {
+    lcdHelper->updateInfoNoteLength();
+    lcdHelper->updateInfoFrequency();
+    lcdHelper->updateInfoNoteName();
     tone(BUZZER_PIN, frequency, speed);
     delay(speed);
     noTone(BUZZER_PIN);
@@ -44,7 +47,6 @@ void Melody::addNote(int noteIndex)
         this->sound(this->noteFrequency, this->noteSpeed / 2);
         this->push();
         this->melodyLength++;
-        lcdHelper->updateInfoLCD();
         lcdHelper->updateMelodyLCD();
     }
 }
@@ -76,6 +78,7 @@ void Melody::playDemo()
 void Melody::setNoteLength(int noteLength)
 {
     this->noteLength = 1 << (noteLength % 6);
+    lcdHelper->updateInfoNoteLength();
 }
 
 void Melody::setNoteFrequency(int noteIndex)
@@ -102,9 +105,8 @@ void Melody::play()
         if (currentTime - previousTime >= this->noteSpeed)
         {
             this->sound(this->noteFrequency, this->noteSpeed);
-            playIndex++;
-            lcdHelper->updateInfoLCD();
             lcdHelper->updateMelodyLCD();
+            playIndex++;
         }
     }
     else if (playIndex >= melodyLength)
@@ -198,6 +200,21 @@ void Melody::calculatePlaybackSpeed()
 int Melody::getBpm()
 {
     return this->bpm;
+}
+
+void Melody::increaseBpm()
+{
+    this->bpm += 10;
+    lcdHelper->updateInfoBpm();
+}
+
+void Melody::decreaseBpm()
+{
+    if (this->bpm > 20)
+    {
+        this->bpm -= 10;
+        lcdHelper->updateInfoBpm();
+    }
 }
 
 float Melody::getNoteFrequency()

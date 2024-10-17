@@ -18,6 +18,12 @@ public:
     void initInfoLCD();
 
     void updateInfoLCD();
+    
+    void updateInfoBpm();
+    void updateInfoFrequency();
+    void updateInfoNoteName();
+    void updateInfoNoteLength();
+
     void updateMelodyLCD();
 
     void clearMenuLCD();
