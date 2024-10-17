@@ -54,17 +54,15 @@ void handleMainNavigation()
   {
   case '1':
     currentMenuState = MenuState::CREATE;
-    lcdHelper->clearMenuLCD();
-    lcdHelper->initInfoLCD();
+    lcdHelper->initCreateMenuLCD();
     break;
   case '2':
     currentMenuState = MenuState::STORAGE;
-    lcdHelper->clearMenuLCD();
-    lcdHelper->updateInfoLCD();
+    // lcdHelper->updateInfoLCD();
+    lcdHelper->initCreateMenuLCD();
     break;
   case '3':
-    if (currentMenuState != MenuState::CREATE)
-      currentMenuState = MenuState::PREVIEW;
+    currentMenuState = MenuState::PREVIEW;
     lcdHelper->initInfoLCD();
     melodyMaker->playDemo();
     break;
@@ -72,19 +70,26 @@ void handleMainNavigation()
     currentMenuState = MenuState::MAIN;
     mainMenu();
     break;
+  case '7':
+    break;
   case '8':
     melodyMaker->increaseBpm();
+    break;
+  case '9':
     break;
   case '0':
     melodyMaker->decreaseBpm();
     break;
   case '*':
-    lcdHelper->clearMelodyLCD();
-    lcdHelper->initInfoLCD();
-    currentMenuState = MenuState::PLAYING;
+    if (melodyMaker->playIndex == 0)
+      lcdHelper->clearMelodyLCD();
+
+    melodyMaker->start();
     break;
   case '#':
     currentMenuState = MenuState::STOPPED;
+    melodyMaker->stop();
+    lcdHelper->clearMelodyLCD();
     break;
   }
 }
@@ -92,6 +97,7 @@ void handleMainNavigation()
 void mainMenu()
 {
 
+  lcdHelper->clearMenuLCD();
   lcdHelper->initMenuLCD();
   lcdHelper->clearInfoLCD();
   lcdHelper->clearMelodyLCD();

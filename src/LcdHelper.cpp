@@ -29,11 +29,30 @@ void LcdHelper::initMenuLCD()
     this->updateInfoBpm();
 }
 
+void LcdHelper::initDemoMenu()
+{
+    this->clearMenuLCD();
+    this->menu.setCursor(0, 0);
+    this->menu.print("Playing:");
+    this->menu.setCursor(0, 2);
+    this->menu.print("Mary had");
+    this->menu.setCursor(0, 3);
+    this->menu.print("a little lamb");
+}
+void LcdHelper::initCreateMenuLCD()
+{
+    this->clearMenuLCD();
+    this->clearInfoLCD();
+    this->initInfoLCD();
+    this->menu.setCursor(0, 0);
+    this->menu.print("BPM: +/- | Main: ESC");
+    this->updateInfoBpm();
+}
+
 void LcdHelper::clearMenuLCD()
 {
     this->menu.clear();
 }
-
 void LcdHelper::clearInfoLCD()
 {
     this->info.clear();
@@ -95,13 +114,31 @@ void LcdHelper::updateInfoLCD()
     this->updateInfoNoteName();
     this->updateInfoNoteLength();
 }
+int cursorX = 0;
+int cursorY = 0;
 
 void LcdHelper::clearMelodyLCD()
 {
+    cursorX = 0;
+    cursorY = 0;
+
     this->melody.clear();
+    this->melody.setCursor(0, 0);
 }
 
 void LcdHelper::updateMelodyLCD()
 {
-    this->melody.print(melodyMaker->getNoteName());
+    const char *name = melodyMaker->getNoteName();
+
+    this->melody.print(name);
+    int len = String(name).length();
+
+    cursorX += len;
+    Serial.print(cursorX);
+
+    if (cursorX % 20 == 0)
+    {
+        cursorY++;
+        this->melody.setCursor(0, cursorY);
+    }
 }

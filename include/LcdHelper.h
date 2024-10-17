@@ -15,6 +15,9 @@ public:
     void init();
 
     void initMenuLCD();
+    void initDemoMenu();
+    void initCreateMenuLCD();
+    
     void initInfoLCD();
 
     void updateInfoLCD();
@@ -25,6 +28,7 @@ public:
     void updateInfoNoteLength();
 
     void updateMelodyLCD();
+    void cursorMelodyLCD();
 
     void clearMenuLCD();
     void clearInfoLCD();
