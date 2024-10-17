@@ -54,6 +54,10 @@ void handleMainNavigation()
   {
   case '1':
     currentMenuState = MenuState::CREATE;
+    melodyMaker = new Melody(160);
+    lcdHelper->clearMenuLCD();
+    lcdHelper->clearInfoLCD();
+    lcdHelper->clearMelodyLCD();
     lcdHelper->initCreateMenuLCD();
     break;
   case '2':
@@ -62,13 +66,20 @@ void handleMainNavigation()
     lcdHelper->initCreateMenuLCD();
     break;
   case '3':
-    currentMenuState = MenuState::PREVIEW;
-    lcdHelper->initInfoLCD();
-    melodyMaker->playDemo();
+    if (currentMenuState == MenuState::MAIN)
+    {
+
+      currentMenuState = MenuState::PREVIEW;
+      lcdHelper->initInfoLCD();
+      melodyMaker->playDemo();
+    }
+    if (currentMenuState != MenuState::MAIN)
+    {
+      currentMenuState = MenuState::MAIN;
+      mainMenu();
+    }
     break;
   case '6':
-    currentMenuState = MenuState::MAIN;
-    mainMenu();
     break;
   case '7':
     break;
@@ -82,14 +93,16 @@ void handleMainNavigation()
     break;
   case '*':
     if (melodyMaker->playIndex == 0)
-      lcdHelper->clearMelodyLCD();
+    {
 
+      lcdHelper->clearMelodyLCD();
+    }
     melodyMaker->start();
     break;
   case '#':
     currentMenuState = MenuState::STOPPED;
-    melodyMaker->stop();
     lcdHelper->clearMelodyLCD();
+    melodyMaker->stop();
     break;
   }
 }

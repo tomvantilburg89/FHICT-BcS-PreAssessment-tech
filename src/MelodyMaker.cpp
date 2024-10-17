@@ -23,14 +23,13 @@ Melody::~Melody()
 }
 void Melody::sound()
 {
-    tone(BUZZER_PIN, this->noteFrequency, this->noteSpeed);
-    delay(this->noteSpeed);
-    noTone(BUZZER_PIN);
-    delay(this->noteSpeed);
     lcdHelper->updateInfoNoteLength();
     lcdHelper->updateInfoFrequency();
     lcdHelper->updateInfoNoteName();
-    lcdHelper->updateMelodyLCD();
+    tone(BUZZER_PIN, this->noteFrequency, this->noteSpeed);
+    delay(this->noteSpeed);
+    noTone(BUZZER_PIN);
+    delay(this->noteSpeed / 2);
 }
 
 void Melody::addLength(int noteTiming)
@@ -113,13 +112,15 @@ void Melody::play()
         this->noteLength = this->noteLengths[playIndex];
         this->noteFrequency = this->noteFrequencies[playIndex];
         this->calculatePlaybackSpeed();
-        if (currentTime - previousTime >= this->noteSpeed)
+
+        if (currentTime - previousTime >= (unsigned long)this->noteSpeed)
         {
             this->sound();
+            lcdHelper->updateMelodyLCD();
             playIndex++;
         }
     }
-    else if (playIndex >= melodyLength)
+    if (playIndex >= melodyLength)
     {
         playIndex = 0;
         currentMenuState = MenuState::CREATE;
