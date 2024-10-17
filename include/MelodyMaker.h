@@ -10,7 +10,7 @@ extern const int demoLen[];
 
 extern const int BUZZER_PIN;
 extern const float BASE_FREQUENCY;
-extern const unsigned int MAX_MELODY_LENGTH;
+extern const int MAX_MELODY_LENGTH;
 
 class Melody
 {
@@ -22,10 +22,12 @@ public:
     unsigned int length();
 
     // Media controls
-    void playMelody();
+    void play();
     void stopMelody();
     void pauseMelody();
     void clearMelody();
+
+    void push();
 
     // Sound generation
     void sound(float frequency, int speed);
@@ -42,6 +44,9 @@ public:
     int getNoteIndex();
     int getMelodyNoteLengths();
     float getMelodyFrequencies();
+    int playIndex = 0;
+
+    int melodyLength = 0;
 
     // Media create/etdit/delete
     void addNote(int noteIndex);
@@ -58,31 +63,16 @@ public:
 
     void setPlaybackSpeed();
 
-    int getBpm()
-    {
-        return this->bpm;
-    }
+    int getBpm();
 
-    float getNoteFrequency()
-    {
-        return this->noteFrequency;
-    }
+    float getNoteFrequency();
 
-    int getNoteLength()
-    {
-        return this->noteLength;
-    }
+    int getNoteLength();
 
-    const char *getNoteName()
-    {
-        return this->noteMap[this->keyPressIndex];
-    }
+    const char *getNoteName();
 
     //
-    float calculateFrequency(int noteIndex)
-    {
-        return BASE_FREQUENCY * pow(2, noteIndex / 12.0);
-    };
+    float calculateFrequency(int noteIndex);
 
 private:
     // Initial
@@ -92,8 +82,6 @@ private:
 
     const int *demoFrequencies;
     const int *demoNoteLengths;
-
-    unsigned int melodyLength = 0;
 
     // Input values
     int noteLength = 8;
@@ -107,7 +95,10 @@ private:
     int *noteSpeeds;
     float *noteFrequencies;
 
-    unsigned int playbackIndex;
+    /// playback
+    unsigned long previousPlaybackTime;
+    unsigned long playbackTimBounceDelay = 50;
+
 
     void setKeyPressIndex(int noteIndex);
     void calculatePlaybackSpeed();

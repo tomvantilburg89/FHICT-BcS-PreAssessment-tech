@@ -16,15 +16,16 @@ Melody::Melody(int bpm)
 
 Melody::~Melody()
 {
-    // delete[] noteFrequencies;
-    // delete[] noteLengths;
+    this->addLength(4);
+    delete[] noteFrequencies;
+    delete[] noteLengths;
 }
 void Melody::sound(float frequency, int speed)
 {
-    tone(BUZZER_PIN, frequency, speed);
-    delay(speed);
+    tone(BUZZER_PIN, frequency, speed * 2);
+    delay(speed * 2);
     noTone(BUZZER_PIN);
-    delay(speed);
+    delay(speed * 2);
 }
 
 void Melody::addLength(int noteTiming)
@@ -38,12 +39,19 @@ void Melody::addNote(int noteIndex)
     {
         this->setKeyPressIndex(noteIndex);
         this->setNoteFrequency(noteIndex);
-        lcdHelper->updateInfoLCD();
-        lcdHelper->updateMelodyLCD();
         this->calculatePlaybackSpeed();
         this->sound(this->noteFrequency, this->noteSpeed);
+        lcdHelper->updateInfoLCD();
+        lcdHelper->updateMelodyLCD();
+        this->push();
         this->melodyLength++;
     }
+}
+
+void Melody::push()
+{
+    this->noteLengths[this->melodyLength] = this->noteLength;
+    this->noteFrequencies[this->melodyLength] = this->noteFrequency;
 }
 
 void Melody::playDemo()
@@ -51,16 +59,16 @@ void Melody::playDemo()
     if (currentMenuState != MenuState::PREVIEW)
         return;
 
+    lcdHelper->clearMelodyLCD();
     for (int i = 0; i < 30; i++)
     {
         this->addLength(demoLen[i]);
         this->setKeyPressIndex(demoFreq[i]);
         this->setNoteFrequency(demoFreq[i]);
         this->calculatePlaybackSpeed();
-        this->sound(this->noteFrequency, this->noteSpeed / 2);
-        lcdHelper->updateInfoLCD();
-        lcdHelper->updateMelodyLCD();
+        this->sound(this->noteFrequency, this->noteSpeed);
     }
+
     currentMenuState = MenuState::MAIN;
 }
 
@@ -74,8 +82,27 @@ void Melody::setNoteFrequency(int noteIndex)
     this->noteFrequency = this->calculateFrequency(noteIndex);
 }
 
-void Melody::playMelody()
+void Melody::play()
 {
+    if (currentMenuState != MenuState::PLAYING && currentMenuState != MenuState::STOPPED)
+        return;
+
+    lcdHelper->clearMelodyLCD();
+
+    do
+    {
+        this->noteLength = this->noteLengths[playIndex];
+        this->noteFrequency = this->noteFrequencies[playIndex];
+        this->calculatePlaybackSpeed();
+        this->sound(this->noteFrequency, this->noteSpeed);
+        lcdHelper->updateInfoLCD();
+        lcdHelper->updateMelodyLCD();
+        playIndex++;
+
+    } while (playIndex < melodyLength && currentMenuState != MenuState::STOPPED);
+
+    playIndex = 0;
+    currentMenuState = MenuState::CREATE;
 }
 
 // TODO: move this to keybaord handler
@@ -159,3 +186,29 @@ void Melody::calculatePlaybackSpeed()
         break;
     }
 }
+
+int Melody::getBpm()
+{
+    return this->bpm;
+}
+
+float Melody::getNoteFrequency()
+{
+    return this->noteFrequency;
+}
+
+int Melody::getNoteLength()
+{
+    return this->noteLength;
+}
+
+const char *Melody::getNoteName()
+{
+    return this->noteMap[this->keyPressIndex];
+}
+
+//
+float Melody::calculateFrequency(int noteIndex)
+{
+    return BASE_FREQUENCY * pow(2, noteIndex / 12.0);
+};
