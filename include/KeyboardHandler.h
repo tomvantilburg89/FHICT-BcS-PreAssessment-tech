@@ -70,6 +70,7 @@ void trySetCurrentKeypadState(char key, KeypadState state)
     if (!key)
         return;
     
+    Serial.println(key);
     pressedKey = key;
     currentKey = melodyMaker->getKeyPress(pressedKey);
     pressedKeypad = state;
