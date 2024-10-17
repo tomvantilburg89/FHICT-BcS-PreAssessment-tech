@@ -27,7 +27,16 @@ void handleKeypads()
     break;
   case KeypadState::TIMINGS:
     if (currentMenuState == MenuState::CREATE)
+    {
       melodyMaker->addLength(currentKey);
+      if (currentKey > 5)
+      {
+        melodyMaker->addNote(-1);
+      }
+      // if (key > 5)
+      // {
+      // }
+    }
     break;
   case KeypadState::NOTES:
     if (currentMenuState == MenuState::CREATE)
@@ -64,10 +73,11 @@ void handleMainNavigation()
   case '6':
     currentMenuState = MenuState::MAIN;
     // ~Melody();
-    melodyMaker = new Melody(120);
+    // melodyMaker = new Melody(180);
     mainMenu();
     break;
   case '*':
+    lcdHelper->clearMelodyLCD();
     currentMenuState = MenuState::PLAYING;
     break;
   case '#':
