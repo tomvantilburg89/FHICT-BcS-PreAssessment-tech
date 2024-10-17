@@ -29,7 +29,7 @@ void Melody::sound()
     tone(BUZZER_PIN, this->noteFrequency, this->noteSpeed);
     delay(this->noteSpeed);
     noTone(BUZZER_PIN);
-    delay(this->noteSpeed / 2);
+    delay(this->noteSpeed);
 }
 
 void Melody::addLength(int noteTiming)

@@ -26,8 +26,9 @@ public:
     void start();
     void stop();
     void stopMelody();
-    void pauseMelody();
-    void clearMelody();
+    void read();
+    void write();
+    void clear();
 
     void push();
 
@@ -46,6 +47,7 @@ public:
     int getNoteIndex();
     int getMelodyNoteLengths();
     float getMelodyFrequencies();
+    int getIndexKeyPress(int index);
     int playIndex = 0;
     int melodyLength = 0;
 
@@ -62,7 +64,18 @@ public:
     void setNoteFrequency(int noteIndex); // perhaps do thison push
     void setNoteLength(int noteLenght);
 
+    float getNoteFrequency(int index)
+    {
+        return this->noteFrequencies[index];
+    }; // perhaps do thison push
+
+    float getNoteLength(int index)
+    {
+        return this->noteLengths[index];
+    }; // perhaps do thison push
+
     void setPlaybackSpeed();
+    int getNoteTiming(int index);
 
     int getBpm();
     void increaseBpm();
@@ -97,12 +110,12 @@ private:
     int *noteKeyPresses;
     int *noteSpeeds;
     float *noteFrequencies;
+    int *noteTiming;
 
     /// playback
     unsigned long previousTime;
     unsigned long timeBouceDelay = 50;
     int currentNoteLength = 0;
-
 
     void setKeyPressIndex(int noteIndex);
     void calculatePlaybackSpeed();

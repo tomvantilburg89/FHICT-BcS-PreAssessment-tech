@@ -4,9 +4,11 @@
 enum MenuState
 {
     MAIN,
+    SAVE,
     CREATE,
     STORAGE,
     PREVIEW,
+    OPENING,
     PLAYING,
     STOPPED,
     NO_MENU

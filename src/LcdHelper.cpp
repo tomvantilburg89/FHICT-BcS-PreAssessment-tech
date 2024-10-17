@@ -3,6 +3,9 @@
 
 extern Melody *melodyMaker;
 
+int cursorX = 0;
+int cursorY = 0;
+
 LcdHelper::LcdHelper()
 {
     this->init();
@@ -23,10 +26,9 @@ void LcdHelper::initMenuLCD()
     this->menu.setCursor(0, 0);
     this->menu.print("1: Create");
     this->menu.setCursor(0, 1);
-    this->menu.print("2: Storage");
+    this->menu.print("2: -------");
     this->menu.setCursor(0, 2);
     this->menu.print("3: Demo");
-    this->updateInfoBpm();
 }
 
 void LcdHelper::initDemoMenu()
@@ -47,11 +49,34 @@ void LcdHelper::initCreateMenuLCD()
     this->menu.setCursor(0, 0);
     this->menu.print("1: Clear ");
     this->menu.setCursor(0, 1);
-    this->menu.print("2: Save");
+    this->menu.print("2: -------");
     this->menu.setCursor(0, 2);
     this->menu.print("3: Main");
 
     this->updateInfoBpm();
+}
+
+void LcdHelper::initSaveMenuLCD()
+{
+    this->clearMenuLCD();
+    this->clearInfoLCD();
+    this->menu.setCursor(0, 0);
+    this->menu.print("1: Save ");
+    this->menu.setCursor(0, 1);
+    this->menu.print("2: -------");;
+    this->menu.setCursor(0, 2);
+    this->menu.print("3: Main");
+}
+void LcdHelper::initStorageMenu()
+{
+    this->clearMenuLCD();
+    this->clearInfoLCD();
+    this->menu.setCursor(0, 0);
+    this->menu.print("1: Open ");
+    this->menu.setCursor(0, 1);
+    this->menu.print("2: -------");
+    this->menu.setCursor(0, 2);
+    this->menu.print("3: Main");
 }
 
 void LcdHelper::clearMenuLCD()
@@ -66,9 +91,6 @@ void LcdHelper::clearInfoLCD()
 void LcdHelper::initInfoLCD()
 {
     this->updateInfoBpm();
-    this->info.setCursor(0, 2);
-    this->info.print("000.00 ");
-    this->info.print("Hz ");
 }
 
 void LcdHelper::updateInfoBpm()
@@ -104,6 +126,7 @@ void LcdHelper::updateInfoNoteName()
     this->info.setCursor(18, 0);
     this->info.print(melodyMaker->getNoteName());
 }
+
 void LcdHelper::updateInfoNoteLength()
 {
 
@@ -123,8 +146,6 @@ void LcdHelper::updateInfoLCD()
     this->updateInfoNoteLength();
     this->updateInfoFrequency();
 }
-int cursorX = 0;
-int cursorY = 0;
 
 void LcdHelper::clearMelodyLCD()
 {
@@ -144,7 +165,6 @@ void LcdHelper::updateMelodyLCD()
     int len = String(name).length();
 
     cursorX += len;
-    Serial.print(cursorX);
 
     if (cursorX >= 19 && cursorY < 4)
     {
