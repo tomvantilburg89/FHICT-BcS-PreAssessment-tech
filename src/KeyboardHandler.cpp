@@ -32,12 +32,18 @@ void handleKeypads()
       if (currentKey > 5)
       {
         melodyMaker->addNote(-1);
+        melodyMaker->sound();
+        lcdHelper->updateMelodyLCD();
       }
     }
     break;
   case KeypadState::NOTES:
     if (currentMenuState == MenuState::CREATE)
+    {
+
       melodyMaker->addNote(currentKey);
+      lcdHelper->updateMelodyLCD();
+    }
     break;
   case KeypadState::NO_ACTION:
     // Do nothing
@@ -53,22 +59,30 @@ void handleMainNavigation()
   switch (pressedKey)
   {
   case '1':
-    currentMenuState = MenuState::CREATE;
-    lcdHelper->initCreateMenuLCD();
-    break;
-  case '2':
-    currentMenuState = MenuState::STORAGE;
-    // lcdHelper->updateInfoLCD();
-    lcdHelper->initCreateMenuLCD();
+    if (currentMenuState == MenuState::MAIN || currentMenuState == MenuState::CREATE)
+    {
+      melodyMaker = new Melody(160);
+      currentMenuState = MenuState::CREATE;
+      lcdHelper->clearMenuLCD();
+      lcdHelper->clearInfoLCD();
+      lcdHelper->clearMelodyLCD();
+      lcdHelper->initCreateMenuLCD();
+    }
     break;
   case '3':
-    currentMenuState = MenuState::PREVIEW;
-    lcdHelper->initInfoLCD();
-    melodyMaker->playDemo();
+    if (currentMenuState == MenuState::MAIN)
+    {
+      currentMenuState = MenuState::PREVIEW;
+      lcdHelper->initInfoLCD();
+      melodyMaker->playDemo();
+    }
+    if (currentMenuState != MenuState::MAIN)
+    {
+      currentMenuState = MenuState::MAIN;
+      mainMenu();
+    }
     break;
   case '6':
-    currentMenuState = MenuState::MAIN;
-    mainMenu();
     break;
   case '7':
     break;
@@ -82,14 +96,15 @@ void handleMainNavigation()
     break;
   case '*':
     if (melodyMaker->playIndex == 0)
+    {
       lcdHelper->clearMelodyLCD();
-
+    }
     melodyMaker->start();
     break;
   case '#':
     currentMenuState = MenuState::STOPPED;
-    melodyMaker->stop();
     lcdHelper->clearMelodyLCD();
+    melodyMaker->stop();
     break;
   }
 }
@@ -101,7 +116,6 @@ void mainMenu()
   lcdHelper->initMenuLCD();
   lcdHelper->clearInfoLCD();
   lcdHelper->clearMelodyLCD();
-  lcdHelper->updateInfoBpm();
 }
 
 void loopKeypads()
