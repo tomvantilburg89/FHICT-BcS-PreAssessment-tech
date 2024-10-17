@@ -10,14 +10,11 @@ LcdHelper::LcdHelper()
 
 void LcdHelper::init()
 {
-
     menu.init();
-    menu.backlight();
-
     info.init();
-    info.backlight();
-
     melody.init();
+    menu.backlight();
+    info.backlight();
     melody.backlight();
 };
 

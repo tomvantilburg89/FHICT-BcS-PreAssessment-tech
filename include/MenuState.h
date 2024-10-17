@@ -7,6 +7,8 @@ enum MenuState
     CREATE,
     STORAGE,
     PREVIEW,
+    PLAYING,
+    STOPPED,
     NO_MENU
 };
 

@@ -28,4 +28,4 @@ const int demoLen[] = {
 
 const int BUZZER_PIN = 13;
 const float BASE_FREQUENCY = 440.0;
-const unsigned int MAX_MELODY_LENGTH = 128;
+const int MAX_MELODY_LENGTH = 128;

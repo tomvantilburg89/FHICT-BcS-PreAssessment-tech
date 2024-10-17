@@ -23,10 +23,7 @@ void handleKeypads()
   switch (pressedKeypad)
   {
   case KeypadState::NAVIGATION:
-    if (currentMenuState == MenuState::MAIN)
-      handleMainNavigation();
-    if (currentMenuState == MenuState::CREATE)
-      handleCreateNavigation();
+    handleMainNavigation();
     break;
   case KeypadState::TIMINGS:
     if (currentMenuState == MenuState::CREATE)
@@ -65,25 +62,22 @@ void handleMainNavigation()
     melodyMaker->playDemo();
     break;
   case '6':
+    currentMenuState = MenuState::MAIN;
+    // ~Melody();
+    melodyMaker = new Melody(120);
     mainMenu();
     break;
-  }
-}
-
-void handleCreateNavigation()
-{
-  if (!pressedKey && pressedKeypad != KeypadState::NAVIGATION && pressedKeypad != KeypadState::NO_ACTION)
-    return;
-
-  if (pressedKey == '6')
-  {
-    mainMenu();
+  case '*':
+    currentMenuState = MenuState::PLAYING;
+    break;
+  case '#':
+    currentMenuState = MenuState::STOPPED;
+    break;
   }
 }
 
 void mainMenu()
 {
-  currentMenuState = MenuState::MAIN;
   lcdHelper->initMenuLCD();
   lcdHelper->clearInfoLCD();
   lcdHelper->clearMelodyLCD();
@@ -115,7 +109,7 @@ void loopKeypads()
       handleKeypads();
     }
     // immediately elliminate the pressedKeypad state
-    pressedKeypad = KeypadState::NO_ACTION;
+    // pressedKeypad = KeypadState::NO_ACTION;
 
   } while (keyPressed && (currentDebounceTime - lastDebounceTime) < debounceDelay);
 }

@@ -2,6 +2,7 @@
 #include "Global.h"
 #include "MelodyMaker.h"
 #include "LcdHelper.h"
+#include "MenuState.h"
 
 extern Melody *melodyMaker;
 extern LcdHelper *lcdHelper;
@@ -23,4 +24,5 @@ void setup()
 void loop()
 {
   loopKeypads();
+  melodyMaker->play();
 }
