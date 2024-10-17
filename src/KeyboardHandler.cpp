@@ -9,8 +9,10 @@ MenuState currentMenuState = MenuState::MAIN;
 extern LcdHelper *lcdHelper;
 int count = 0;
 
-void handleNavigation();
+void mainMenu();
 void handleKeypads();
+void handleMainNavigation();
+void handleCreateNavigation();
 void trySetCurrentKeypadState(char key, KeypadState state);
 
 void handleKeypads()
@@ -21,7 +23,10 @@ void handleKeypads()
   switch (pressedKeypad)
   {
   case KeypadState::NAVIGATION:
-    handleNavigation();
+    if (currentMenuState == MenuState::MAIN)
+      handleMainNavigation();
+    if (currentMenuState == MenuState::CREATE)
+      handleCreateNavigation();
     break;
   case KeypadState::TIMINGS:
     if (currentMenuState == MenuState::CREATE)
@@ -37,7 +42,7 @@ void handleKeypads()
   }
 }
 
-void handleNavigation()
+void handleMainNavigation()
 {
   if (!pressedKey && pressedKeypad != KeypadState::NAVIGATION && pressedKeypad != KeypadState::NO_ACTION)
     return;
@@ -47,7 +52,7 @@ void handleNavigation()
   case '1':
     currentMenuState = MenuState::CREATE;
     lcdHelper->clearMenuLCD();
-    lcdHelper->updateInfoLCD();
+    lcdHelper->initInfoLCD();
     break;
   case '2':
     currentMenuState = MenuState::STORAGE;
@@ -60,18 +65,28 @@ void handleNavigation()
     melodyMaker->playDemo();
     break;
   case '6':
-    currentMenuState = MenuState::MAIN;
-    lcdHelper->initMenuLCD();
-    lcdHelper->clearInfoLCD();
-    lcdHelper->clearMelodyLCD();
-
-    break;
-  case '*':
-    break;
-  case '#':
-    // melodyMaker->stop();
+    mainMenu();
     break;
   }
+}
+
+void handleCreateNavigation()
+{
+  if (!pressedKey && pressedKeypad != KeypadState::NAVIGATION && pressedKeypad != KeypadState::NO_ACTION)
+    return;
+
+  if (pressedKey == '6')
+  {
+    mainMenu();
+  }
+}
+
+void mainMenu()
+{
+  currentMenuState = MenuState::MAIN;
+  lcdHelper->initMenuLCD();
+  lcdHelper->clearInfoLCD();
+  lcdHelper->clearMelodyLCD();
 }
 
 void loopKeypads()

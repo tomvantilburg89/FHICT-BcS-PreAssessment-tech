@@ -61,6 +61,7 @@ void Melody::playDemo()
         lcdHelper->updateInfoLCD();
         lcdHelper->updateMelodyLCD();
     }
+    currentMenuState = MenuState::MAIN;
 }
 
 void Melody::setNoteLength(int noteLength)
