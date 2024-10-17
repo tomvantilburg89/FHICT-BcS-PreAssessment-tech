@@ -17,7 +17,8 @@ public:
     void initMenuLCD();
     void initDemoMenu();
     void initCreateMenuLCD();
-    
+    void initSaveMenuLCD();
+    void initStorageMenu();
     void initInfoLCD();
 
     void updateInfoLCD();
