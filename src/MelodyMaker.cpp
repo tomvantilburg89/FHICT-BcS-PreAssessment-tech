@@ -1,7 +1,8 @@
 #include <Arduino.h>
 #include "MelodyMaker.h"
-
 #include "LcdHelper.h"
+#include "Global.h"
+#include "MenuState.h"
 
 extern LcdHelper *lcdHelper;
 
@@ -11,8 +12,7 @@ Melody::Melody(int bpm)
 {
     noteFrequencies = new float[MAX_MELODY_LENGTH];
     noteLengths = new int[MAX_MELODY_LENGTH];
-    this->setNoteFrequency(1);
-    this->setNoteLength(2);
+    this->calculatePlaybackSpeed();
 }
 
 Melody::~Melody()
@@ -39,16 +39,19 @@ void Melody::addNote(int noteIndex)
     {
         this->setKeyPressIndex(noteIndex);
         this->setNoteFrequency(noteIndex);
-        this->calculatePlaybackSpeed();
-        this->sound(this->noteFrequency, this->noteSpeed);
         lcdHelper->updateInfoLCD();
         lcdHelper->updateMelodyLCD();
+        this->calculatePlaybackSpeed();
+        this->sound(this->noteFrequency, this->noteSpeed);
         this->melodyLength++;
     }
 }
 
 void Melody::playDemo()
 {
+    if (currentMenuState != MenuState::PREVIEW)
+        return;
+        
     for (int i = 0; i < 30; i++)
     {
         this->addLength(demoLen[i]);

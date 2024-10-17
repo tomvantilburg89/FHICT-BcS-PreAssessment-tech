@@ -96,10 +96,10 @@ private:
     unsigned int melodyLength = 0;
 
     // Input values
-    int noteLength;
-    int noteSpeed;
+    int noteLength = 8;
+    int noteSpeed = (60000 / this->bpm) / 2;
     int keyPressIndex;
-    float noteFrequency;
+    float noteFrequency = 440.0;
 
     // Create melody vars
     int *noteLengths;

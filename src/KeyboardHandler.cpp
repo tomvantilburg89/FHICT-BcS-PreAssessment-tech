@@ -2,6 +2,9 @@
 #include "MelodyMaker.h"
 #include "KeyboardHandler.h"
 #include "LcdHelper.h"
+#include "MenuState.h"
+
+MenuState currentMenuState = MenuState::MAIN;
 
 extern LcdHelper *lcdHelper;
 int count = 0;
@@ -21,17 +24,18 @@ void handleKeypads()
     handleNavigation();
     break;
   case KeypadState::TIMINGS:
-    melodyMaker->addLength(currentKey);
+    if (currentMenuState == MenuState::CREATE)
+      melodyMaker->addLength(currentKey);
     break;
   case KeypadState::NOTES:
-    melodyMaker->addNote(currentKey);
+    if (currentMenuState == MenuState::CREATE)
+      melodyMaker->addNote(currentKey);
     break;
   case KeypadState::NO_ACTION:
     // Do nothing
     break;
   }
 }
-
 
 void handleNavigation()
 {
@@ -41,10 +45,15 @@ void handleNavigation()
   switch (pressedKey)
   {
   case '1':
-    
+    currentMenuState = MenuState::CREATE;
     break;
   case '4':
+    if (currentMenuState != MenuState::CREATE)
+      currentMenuState = MenuState::PREVIEW;
     melodyMaker->playDemo();
+    break;
+  case '6':
+    currentMenuState = MenuState::MAIN;
     break;
   case '*':
     break;

@@ -29,12 +29,14 @@ enum LcdState
     NO_LCD
 };
 
+
 extern const int BUZZER_PIN;
 extern const float BASE_FREQUENCY;
 extern const char *namedNotesMap[];
 
 extern char currentKey;
 extern const char *namedNotesMap[];
+
 extern KeypadState pressedKeypad;
 
 extern int getKeyIndex(char key);
